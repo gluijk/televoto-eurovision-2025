@@ -8,7 +8,7 @@ library(tiff)
 
 
 NCOUNTRIES=26-1  # 26 countries, Spain cannot vote itself so it's removed
-N=1000000
+N=1000000  # number of Monte Carlo simulations
 gamma=2.2
 
 for (distr in c('unif', 'unifdirichlet', 'nonunifdirichlet')) {
