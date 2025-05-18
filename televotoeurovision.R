@@ -7,7 +7,7 @@ library(MCMCpack)  # Dirichlet distribution
 library(tiff)
 
 
-NCOUNTRIES=26  # 26 participating countries
+NCOUNTRIES=26-1  # 26 countries, Spain cannot vote itself so it's removed
 N=1000000
 gamma=2.2
 
@@ -29,16 +29,16 @@ for (distr in c('unif', 'unifdirichlet', 'nonunifdirichlet')) {
         votesnorm=sweep(votes, 2, colSums(votes), FUN="/")  # normalize each simulation
     }
     
-    votesplot=votesnorm
-    dim(votesplot)=c(dim(votesnorm)[1]*100, dim(votesnorm)[2]/100)
-    writeTIFF(votesplot^(1/gamma), paste0("voting_", distr, ".tif"), bits.per.sample=16)
+    # Get the min needed voting already in %
+    minvotesrequired=apply(votesnorm, 2, max)*100
     
-    minvotesrequired=apply(votesnorm, 2, max)*100  # get the min needed voting in %
     minimo=min(minvotesrequired)
     mediana=median(minvotesrequired)
     media=mean(minvotesrequired)
     intervalo95=quantile(minvotesrequired, 0.95)
     maximo=max(minvotesrequired)
+    
+    # Plot histograms of min % voting needed
     png(paste0("histogram_", distr, ".png"), width=1024, height=400)
         hist(minvotesrequired, breaks=800, xlim=c(0,100),
              main=paste0('Distr. of min % voting needed to win Eurovision televoting ',
@@ -57,10 +57,16 @@ for (distr in c('unif', 'unifdirichlet', 'nonunifdirichlet')) {
         abline(v=c(minimo, maximo), col='gray', lty="dotted")
     dev.off()
     
+    # Estimated campaign KPI's
     print(paste0("'", distr, "' simulation:"))
-    print(paste0("  Televoto orgánico: ", 100/26, "%"))
+    print(paste0("  Televoto orgánico: ", 100/NCOUNTRIES, "%"))
     print(paste0("  Televoto promedio: ", media, "%"))
-    print(paste0("  Televoto campaña: ", media-100/26, "%"))
+    print(paste0("  Televoto campaña: ", media-100/NCOUNTRIES, "%"))
+    
+    # Render graphically the voting distribution
+    votesplot=votesnorm
+    dim(votesplot)=c(dim(votesnorm)[1]*100, dim(votesnorm)[2]/100)
+    writeTIFF(votesplot^(1/gamma), paste0("voting_", distr, ".tif"), bits.per.sample=16)
 }
 
 
