@@ -7,7 +7,7 @@ library(MCMCpack)  # Dirichlet distribution
 library(tiff)
 
 
-NCOUNTRIES=26-1  # 26 countries, Spain cannot vote itself so it's removed
+NCOUNTRIES=26-1  # 26 countries, Spain removed since it cannot vote itself
 N=1000000  # number of Monte Carlo simulations
 gamma=2.2
 
