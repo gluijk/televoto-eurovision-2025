@@ -1,6 +1,6 @@
 # Dirichlet distribution
 # www.overfitting.net
-# https://www.overfitting.net/
+# https://www.overfitting.net/2025/05/interiorizando-posteriori-la.html
 
 
 library(MCMCpack)  # Dirichlet distribution
