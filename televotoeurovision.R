@@ -1,6 +1,6 @@
 # Eurovision Contest Televoting Monte Carlo simulation
 # www.overfitting.net
-# https://www.overfitting.net/
+# https://www.overfitting.net/2025/05/estimacion-del-voto-minimo-para-ganar.html
 
 
 library(MCMCpack)  # Dirichlet distribution
